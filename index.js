@@ -13,9 +13,15 @@ function metering (gasIdentifier, code) {
             // is wrapper, skip
             return
           }
-          if (path.parentPath && SKIP in path.parentPath.node) {
-            // already wrapped, skip
-            return
+          if (path.parentPath != null) {
+            if (SKIP in path.parentPath.node) {
+              // already wrapped, skip
+              return
+            }
+            if (path.parentPath.type === 'UpdateExpression') {
+              // skip for x++ and x--
+              return
+            }
           }
 
           let call = t.callExpression(t.identifier(gasIdentifier), [])
