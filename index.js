@@ -13,6 +13,10 @@ function metering (gasIdentifier, code) {
             // is wrapper, skip
             return
           }
+          if (path.type === 'MemberExpression') {
+            // skip x.y expressions
+            return
+          }
           if (path.parentPath != null) {
             if (SKIP in path.parentPath.node) {
               // already wrapped, skip
