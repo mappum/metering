@@ -37,7 +37,13 @@ function metering (gasIdentifier, code) {
           path.replaceWith(call)
         },
 
-          path.replaceWith(seq)
+        Function (path, state) {
+          let call = t.callExpression(
+            t.identifier(gasIdentifier),
+            []
+          )
+          call[SKIP] = true
+          path.node.body.body.unshift(call)
         }
       }
     }
