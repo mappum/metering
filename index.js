@@ -28,14 +28,14 @@ function metering (gasIdentifier, code) {
             }
           }
 
-          let call = t.callExpression(t.identifier(gasIdentifier), [])
+          let call = t.callExpression(
+            t.identifier(gasIdentifier),
+            [ path.node ]
+          )
           call[SKIP] = true
 
-          let seq = t.sequenceExpression([
-            call,
-            path.node
-          ])
-          seq[SKIP] = true
+          path.replaceWith(call)
+        },
 
           path.replaceWith(seq)
         }
